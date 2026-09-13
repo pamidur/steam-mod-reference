@@ -1,4 +1,4 @@
-# Pamidur.SteamModReference (SMR)
+# Steam-Mod-Reference
 
 MSBuild tasks/props/targets that let a .NET project reference DLLs shipped inside Steam Workshop mods
 , by downloading them via SteamCMD at build time.
@@ -34,7 +34,7 @@ NOT TESTED ON WINDOWS WHATSOEVER
 </PropertyGroup>
 
 <ItemGroup>
-  <PackageReference Include="Pamidur.SteamModReference" Version="0.1.0" PrivateAssets="all" />
+  <PackageReference Include="SteamModReference" Version="0.1.0" PrivateAssets="all" />
 </ItemGroup>
 
 <ItemGroup>

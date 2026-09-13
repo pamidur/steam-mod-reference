@@ -21,7 +21,7 @@
 
   <PropertyGroup>
     <!-- required for debug only -->
-    <_SteamModTaskLocation>$(MSBuildThisFileDirectory)../../artifacts/bin/SteamModReference/debug/Pamidur.SteamModReference.Tasks.dll</_SteamModTaskLocation>
+    <_SteamModTaskLocation>$(MSBuildThisFileDirectory)../../artifacts/bin/SteamModReference/$(Configuration.ToLowerInvariant())/Pamidur.SteamModReference.Tasks.dll</_SteamModTaskLocation>
   </PropertyGroup>
 
   <ItemGroup>

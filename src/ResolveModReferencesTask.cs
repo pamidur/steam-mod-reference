@@ -120,7 +120,7 @@ public sealed class ResolveModReferencesTask : MSTask
             {
                 var refItem = new Microsoft.Build.Utilities.TaskItem(Path.GetFileNameWithoutExtension(dll));
                 refItem.SetMetadata("HintPath", dll);
-                refItem.SetMetadata("Private", "false");
+                refItem.SetMetadata("Private", "true");
                 refItem.SetMetadata("SteamModWorkshopId", workshopId);
                 results.Add(refItem);
             }

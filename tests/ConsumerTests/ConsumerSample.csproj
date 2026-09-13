@@ -33,6 +33,6 @@
     </PackageReference>
   </ItemGroup>  
 
-  <Import Project="$(MSBuildThisFileDirectory)../../build/Pamidur.SteamModReference.targets" />
+  <Import Project="$(MSBuildThisFileDirectory)../../build/SteamModReference.targets" />
 
 </Project>

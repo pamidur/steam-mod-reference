@@ -17,8 +17,8 @@
 
   <PropertyGroup>
     <ResolveAssemblyReferencesDependsOn>
-      ResolveSteamModReferences
-      $(ResolveAssemblyReferencesDependsOn);
+      ResolveSteamModReferences;
+      $(ResolveAssemblyReferencesDependsOn)
     </ResolveAssemblyReferencesDependsOn>
     <CopyFilesToOutputDirectoryDependsOn>
       $(CopyFilesToOutputDirectoryDependsOn);
@@ -26,7 +26,8 @@
     </CopyFilesToOutputDirectoryDependsOn>
   </PropertyGroup>
 
-  <Target Name="ResolveSteamModReferences" BeforeTargets="ResolveAssemblyReferences;CopyFilesToOutputDirectory">
+  <Target Name="ResolveSteamModReferences"
+    BeforeTargets="ResolveAssemblyReferences;CopyFilesToOutputDirectory">
 
     <!--
       TODO (incrementality): add Inputs/Outputs here keyed on the script file 

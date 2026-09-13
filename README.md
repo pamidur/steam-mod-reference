@@ -57,7 +57,6 @@ NOT TESTED ON WINDOWS WHATSOEVER
 | `SteamModAppId`                | `294100` (RimWorld)                  | Steam AppId the workshop ids belong to. |
 | `SteamModDefaultAssemblies`    | `1.6/Assemblies/*.*;Assemblies/*.*`  | Ordered, `;`-separated fallback patterns tried when an item has no `Assemblies` metadata. First pattern that matches ≥1 dll wins. |
 | `SteamModIntermediateDir`      | `$(BaseIntermediateOutputPath)steam\`| Where steamcmd + downloaded workshop content is staged. |
-| `SteamModForceRedownload`      | `false`                              | Escape hatch to bust the cache (not yet wired to actual skip-logic - see PLAN.md). |
 | `SteamModCleanRemovesToolCache`| `false`                              | `dotnet clean` always clears staged mod content + manifest. Set `true` to also remove the cached steamcmd binary itself on clean (fully-from-scratch reset, re-downloads steamcmd next build). |
 
 ## Clean behavior
@@ -80,7 +79,6 @@ src/                                    the MSBuild task assembly (net472 + net8
 build/                                  props/targets shipped to direct consumers
 buildTransitive/                        thin pass-through for transitive consumers
 tests/ConsumerSample/                   a project that consumes the package, for local testing
-PLAN.md                                 what's implemented vs. still to do
 ```
 
 ## License

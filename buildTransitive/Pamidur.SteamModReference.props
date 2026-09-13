@@ -1,3 +1,0 @@
-<Project>
-  <Import Project="$(MSBuildThisFileDirectory)../build/Pamidur.SteamModReference.props" />
-</Project>

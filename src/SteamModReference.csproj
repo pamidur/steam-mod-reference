@@ -7,7 +7,50 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference
+      Include="Microsoft.Build.Utilities.Core"
+      Version="17.14.28" PrivateAssets="all"
+      ExcludeAssets="runtime" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>SteamModReference</PackageId>
+
+    <Title>SteamModReference - reference dlls from steam workshop</Title>
+    <PackageDescription>Reference dlls from steam workshop
+      See release notes for this version here:
+      https://github.com/pamidur/steam-mod-reference/releases/tag/$(Version)
+    </PackageDescription>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>steam mod workshop dll reference references dependency dependencies</PackageTags>
+    <PackageReleaseNotes>See here:
+      https://github.com/pamidur/steam-mod-reference/releases/tag/$(Version)</PackageReleaseNotes>
+
+
+    <Product>SteamModReference</Product>
+    <Authors>SteamModReference Contributors</Authors>
+    <Company>SteamModReference Contributors</Company>
+    <PackageProjectUrl>https://github.com/pamidur/steam-mod-reference</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pamidur/steam-mod-reference</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryCommit>$(CommitSHA)</RepositoryCommit>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>0.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <IncludeBuildOutput>False</IncludeBuildOutput>
+    <NoWarn>$(NoWarn);NU5100;NU5128</NoWarn>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Pack="true" Include="../README.md" PackagePath="/" />
+    <None Pack="true" Include="../build/*.*" PackagePath="build/" />
+    <None Pack="true" Include="../buildTransitive/*.*" PackagePath="buildTransitive/" />
+    <None Pack="true" Include="$(OutputPath)*.dll" PackagePath="tasks/" />
   </ItemGroup>
 
 </Project>

@@ -2,6 +2,8 @@
   <PropertyGroup>
     <LangVersion>Latest</LangVersion>
     <Nullable>enable</Nullable>
+    <!-- <WarningsAsErrors>$(WarningsAsErrors);Nullable</WarningsAsErrors> -->
     <ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 </Project>

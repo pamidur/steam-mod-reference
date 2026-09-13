@@ -34,7 +34,7 @@ NOT TESTED ON WINDOWS WHATSOEVER
 </PropertyGroup>
 
 <ItemGroup>
-  <PackageReference Include="SteamModReference" Version="0.1.0" PrivateAssets="all" />
+  <PackageReference Include="SteamModReference" Version="0.1.1" PrivateAssets="all" />
 </ItemGroup>
 
 <ItemGroup>

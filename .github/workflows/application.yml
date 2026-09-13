@@ -1,0 +1,46 @@
+name: Application
+on:
+  push:
+    branches: 
+        - master
+    tags: 
+        - '**'
+  pull_request:  
+
+env:
+  app_release: false
+  app_conf: Release
+  nuget_url: https://api.nuget.org/v3/index.json
+
+jobs:  
+  build:
+    runs-on: ubuntu-latest    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 10.0.x
+    - name: Get version
+      run:  echo "app_version=`git describe --tags`" >> $GITHUB_ENV
+    - name: Get release status
+      run:  echo "app_release=`(git describe --tags --exact-match>/dev/null 2>&1 && echo true) || echo false`" >> $GITHUB_ENV
+    - name: Status
+      run: echo "Release=$app_release, version=$app_version"
+    - name: Compile
+      run: dotnet build -c $app_conf -p:Version=$app_version -p:InformationalVersion="$app_version:$GITHUB_SHA"
+    - name: Test
+      run: dotnet test -c $app_conf --no-build
+    - name: Pack
+      run: dotnet pack -c $app_conf -p:Version=$app_version -p:InformationalVersion="$app_version:$GITHUB_SHA" -p:CommitSHA=$GITHUB_SHA
+    - uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: ./artifacts/package/release
+    - name: Publish
+      if: env.app_release == 'true'
+      env:
+        NUGETKEY: ${{ secrets.NUGET_KEY }}
+      working-directory: artifacts
+      run: dotnet nuget push ./*.nupkg -s $nuget_url -k $NUGETKEY     

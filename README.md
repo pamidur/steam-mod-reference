@@ -19,7 +19,7 @@ sudo apt install libc6:i386
 ```
 
 It also requires net10 SDK installed. 
-Your mods can target whatever they want -> mono, net461
+Your mods can target whatever they want -> mono, net461 etc
 
 NOT TESTED ON WINDOWS WHATSOEVER
 

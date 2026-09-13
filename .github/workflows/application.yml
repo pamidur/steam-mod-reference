@@ -57,5 +57,5 @@ jobs:
 
     - name: Publish
       if: env.app_release == 'true'
-      working-directory: artifacts
+      working-directory: artifacts/package/release
       run: dotnet nuget push ./*.nupkg -s $nuget_url -k ${{steps.login.outputs.NUGET_API_KEY}}    

@@ -39,13 +39,20 @@ jobs:
       run: dotnet test -c $app_conf --no-build
     - name: Pack
       run: dotnet pack -c $app_conf -p:Version=$app_version -p:InformationalVersion="$app_version:$GITHUB_SHA" -p:CommitSHA=$GITHUB_SHA
+
     - uses: actions/upload-artifact@v4
       with:
         name: artifacts
         path: ./artifacts/package/release
+
+    - name: NuGet login (OIDC → temp API key)
+      if: env.app_release == 'true'
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: pamidur
+
     - name: Publish
       if: env.app_release == 'true'
-      env:
-        NUGETKEY: ${{ secrets.NUGET_KEY }}
       working-directory: artifacts
-      run: dotnet nuget push ./*.nupkg -s $nuget_url -k $NUGETKEY     
+      run: dotnet nuget push ./*.nupkg -s $nuget_url -k ${{steps.login.outputs.NUGET_API_KEY}}    

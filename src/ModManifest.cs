@@ -8,9 +8,6 @@ namespace Pamidur.SteamModReference.Tasks
     /// <summary>
     /// Tracks what has already been downloaded/resolved 
     /// so repeated builds don't reinvoke SteamCMD for mods that haven't changed.
-    ///
-    /// STATUS: shape defined, load/save implemented. NOT YET WIRED into
-    /// ResolveModReferencesTask's skip-logic (see TODOs there).
     /// </summary>
     public sealed class ModManifest
     {

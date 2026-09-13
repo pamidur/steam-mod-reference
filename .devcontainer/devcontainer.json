@@ -1,0 +1,23 @@
+{
+	"name": "steam-mod-ref",
+	"image" : "mcr.microsoft.com/devcontainers/dotnet:10.0-noble",
+	//"dockerFile": "Dockerfile",
+
+	//"workspaceFolder": "/workspace",
+
+	"updateRemoteUserUID": false,
+	"securityOpt": [
+		"label=type:container_t"
+	],
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.csdevkit",
+				"ms-vscode.mono-debug",
+				"redhat.vscode-xml"
+			]
+		}
+	}
+}

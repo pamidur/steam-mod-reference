@@ -1,0 +1,71 @@
+<Project>
+
+  <!-- Support for donnet VSCode and Ryder via net10 and full VS via TaskHostFactory. User machine still required to have net10 sdk -->
+
+  <UsingTask 
+    TaskName="Pamidur.SteamModReference.Tasks.ResolveModReferencesTask" 
+    AssemblyFile="$(_SteamModTaskLocation)"
+    Runtime="NET" TaskFactory="TaskHostFactory" 
+    Condition="'$(MSBuildRuntimeType)' == 'Full'" 
+    />
+  <UsingTask 
+    TaskName="Pamidur.SteamModReference.Tasks.ResolveModReferencesTask" 
+    AssemblyFile="$(_SteamModTaskLocation)"
+    Runtime="NET" 
+    Condition="'$(MSBuildRuntimeType)' == 'Core'" />
+
+  <Target Name="ResolveSteamModReferences" BeforeTargets="ResolveAssemblyReferences;CoreCompile">
+
+    <!--
+      TODO (incrementality): add Inputs/Outputs here keyed on the manifest file so MSBuild
+      itself can skip this whole target when @(SteamModReference) hasn't changed, e.g.:
+        Inputs="$(MSBuildProjectFile);$(SteamModIntermediateDir)manifest.json"
+        Outputs="$(SteamModIntermediateDir)manifest.json"
+      Left off for now because the manifest isn't written/consumed yet (see task TODOs).
+    -->
+
+    <ResolveModReferencesTask
+        Condition="'@(SteamModReference)' != ''"
+        Mods="@(SteamModReference)"
+        AppId="$(SteamModAppId)"
+        IntermediateDir="$(SteamModIntermediateDir)"
+        DefaultAssembliesPatterns="$(SteamModDefaultAssemblies)"
+        ExistingReferences="@(Reference)">
+      <Output TaskParameter="ResolvedAssemblies" ItemName="_SteamModResolvedReference" />
+    </ResolveModReferencesTask>
+
+    <ItemGroup>
+      <Reference Include="@(_SteamModResolvedReference)" />
+    </ItemGroup>
+
+  </Target>
+
+  <!--
+    `dotnet clean` (and VS "Clean") only clears the SDK's own obj/bin outputs - it has
+    no idea about the workshop content we stage under $(SteamModIntermediateDir), so
+    without this it would happily survive a clean and silently go stale/stick around.
+    Hooking AfterTargets="Clean" runs this as part of that same command.
+
+    By default this only clears staged MOD content + the manifest, so the next build
+    just re-runs `workshop_download_item` (steamcmd itself no-ops quickly if content is
+    already current server-side, but this guarantees a clean re-resolve of dedup/glob
+    logic too). The steamcmd tool binary itself is left cached, since re-downloading
+    ~100MB of steamcmd on every clean is wasteful and it's not "mod content" - set
+    SteamModCleanRemovesToolCache=true if you want a truly from-scratch reset instead.
+  -->
+  <Target Name="CleanSteamModReferences" AfterTargets="Clean">
+
+    <ItemGroup>
+      <_SteamModCleanDirs Include="$(SteamModIntermediateDir)steam\steamapps\workshop" Condition="Exists('$(SteamModIntermediateDir)steam\steamapps\workshop')" />
+      <_SteamModCleanDirs Include="$(SteamModIntermediateDir)steamcmd" Condition="'$(SteamModCleanRemovesToolCache)' == 'true' and Exists('$(SteamModIntermediateDir)steamcmd')" />
+    </ItemGroup>
+
+    <RemoveDir Directories="@(_SteamModCleanDirs)" Condition="'@(_SteamModCleanDirs)' != ''" />
+
+    <Delete Files="$(SteamModIntermediateDir)manifest.json" Condition="Exists('$(SteamModIntermediateDir)manifest.json')" />
+
+    <Message Importance="Normal" Text="SMR: cleared staged workshop mod content under $(SteamModIntermediateDir)steam\steamapps\workshop." />
+
+  </Target>
+
+</Project>

@@ -1,0 +1,44 @@
+<Project>
+
+  <PropertyGroup>
+    <!--
+      Steam AppId that workshop items belong to (RimWorld = 294100). Consumers targeting
+      a different game override this in their own csproj before restoring/building:
+        <PropertyGroup><SteamModAppId>294100</SteamModAppId></PropertyGroup>
+    -->
+    <SteamModAppId Condition="'$(SteamModAppId)' == ''">294100</SteamModAppId>
+
+    <!--
+      Ordered, semicolon-separated fallback patterns used for any <SteamModReference>
+      item that does NOT set Assemblies="...". Tried in order; the first pattern that
+      matches at least one .dll wins. This lets a single default cover both the common
+      "versioned folder" workshop mod layout and the older/flatter layout without every
+      consumer having to specify Assemblies for every single mod reference.
+
+        1.6/Assemblies/*.*   - current RimWorld version-folder convention
+        Assemblies/*.*       - fallback for mods without a version subfolder
+
+      Override per-project if you're targeting a different game or version, e.g.:
+        <SteamModDefaultAssemblies>1.5/Assemblies/*.*;Assemblies/*.*</SteamModDefaultAssemblies>
+    -->
+    <SteamModDefaultAssemblies Condition="'$(SteamModDefaultAssemblies)' == ''">1.6/Assemblies/*.*;Assemblies/*.*</SteamModDefaultAssemblies>
+
+    <!-- Everything the package downloads/stages lives under here. -->
+    <SteamModIntermediateDir Condition="'$(SteamModIntermediateDir)' == ''">$(BaseIntermediateOutputPath)steam\</SteamModIntermediateDir>
+
+    <!-- Set true to force re-download of every mod id on the next build (manual cache-bust escape hatch). -->
+    <SteamModForceRedownload Condition="'$(SteamModForceRedownload)' == ''">false</SteamModForceRedownload>
+
+    <!--
+      `dotnet clean` always clears staged workshop mod content (obj/steam/steam/steamapps/workshop)
+      and the manifest, via the CleanSteamModReferences target. Set this true to also
+      remove the cached steamcmd tool binary itself on clean (a full from-scratch reset,
+      at the cost of re-downloading steamcmd - tens of MB - on the next build).
+    -->
+    <SteamModCleanRemovesToolCache Condition="'$(SteamModCleanRemovesToolCache)' == ''">false</SteamModCleanRemovesToolCache>
+
+    <_SteamModTaskLocation Condition="'$(_SteamModTaskLocation)' == ''">$(MSBuildThisFileDirectory)../tasks/Pamidur.SteamModReference.Tasks.dll</_SteamModTaskLocation>
+
+  </PropertyGroup>
+
+</Project>

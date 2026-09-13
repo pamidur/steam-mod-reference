@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/SteamModReference.csproj" />
+  <Project Path="tests/ConsumerTests/ConsumerSample.csproj" />
+  <Project Path="tests/FakeGame/Assembly-CSharp.csproj" />
+</Solution>

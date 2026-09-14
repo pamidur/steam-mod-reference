@@ -22,7 +22,7 @@ public sealed class SteamCmdBootstrapper(TaskLoggingHelper log)
     private const string MacUrl = "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_osx.tar.gz";
 
     public static string ExecutableName =>
-        RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "steamcmd.exe" : "steamcmd.sh";
+        RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "steamcmd.exe" : "linux64/steamcmd";
 
     public async Task<string> EnsureAsync(string steamRootDir)
     {

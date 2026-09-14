@@ -10,15 +10,7 @@ Game agnostic but tested on Rimworld
 
 ## Requirements
 
-On linux/ github
-
-```
-sudo dpkg --add-architecture i386
-sudo apt update
-sudo apt install libc6:i386
-```
-
-It also requires net10 SDK installed. 
+It requires net10 SDK installed. 
 Your mods can target whatever they want -> mono, net461 etc
 
 NOT TESTED ON WINDOWS WHATSOEVER
@@ -34,7 +26,7 @@ NOT TESTED ON WINDOWS WHATSOEVER
 </PropertyGroup>
 
 <ItemGroup>
-  <PackageReference Include="SteamModReference" Version="0.1.1" PrivateAssets="all" />
+  <PackageReference Include="SteamModReference" Version="0.2.0" PrivateAssets="all" />
 </ItemGroup>
 
 <ItemGroup>
